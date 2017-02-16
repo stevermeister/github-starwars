@@ -10,7 +10,7 @@ npm i gulp -g
 
 #### install environment:
 ```bash
-npm i gulp -g
+npm i
 ```
 
 ##Usage
