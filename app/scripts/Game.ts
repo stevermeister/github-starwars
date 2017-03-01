@@ -27,7 +27,15 @@ class Game {
             document.addEventListener('keypress', this.checkMove.bind(this));
         });
 
+        EventEmitter.on("update score", this.checkScore.bind(this));
+
     }
+
+
+    public checkScore(data: {score:number}): void{
+        this._scoreElement.innerHTML = "Score: "+ data.score;
+    }
+
 
     public checkMove(e:KeyboardEvent):void {
         e.preventDefault();
