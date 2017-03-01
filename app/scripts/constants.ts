@@ -16,13 +16,25 @@ const FIELD_SIZE = {
 };
 
 const START_ENERGY_PARAMS = {
+    'enemy': {
+        direction: { x: -1, y: 0 },
+        duration: 200
+    },
     'spaceshipBullet': {
         direction: { x: 1, y: 0 },
         duration: 60
     },
+    'enemyBullet': {
+        direction: { x: -1, y: 0 },
+        duration: 70
+    },
     'spaceship':{
         direction: {x: 0, y: 0},
         duration: 0
+    },
+    'starOfDeath': {
+        direction: { x: -1, y: 0 },
+        duration: 500
     }
 };
 

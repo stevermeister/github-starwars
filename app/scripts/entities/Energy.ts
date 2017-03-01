@@ -25,6 +25,16 @@ class Energy {
         return true;
     }
 
+    public checkPosition(colaider: Point[]): boolean {
+        let res: boolean = false;
+        colaider.forEach( point1 => {
+            this.colaider.forEach(point2 => {
+                if( point1.isSame(point2) ) res = true;
+            });
+        });
+        return res;
+    }
+
 }
 
 export { Energy };

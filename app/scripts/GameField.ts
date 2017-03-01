@@ -42,6 +42,10 @@ class GameField {
         });
     }
 
+    public getLenghtofData(): number {
+        return this._dataField.length;
+    }
+
     private _checkVisiblePositions(currentState: Point[]): Point[]{ //filter every items that do not in field
         return  currentState.filter(point => point.x >= FIELD_SIZE.leftX && point.x <= FIELD_SIZE.rightX && point.y >= FIELD_SIZE.topY && point.y <= FIELD_SIZE.bottomY);
     }
