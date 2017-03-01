@@ -1,7 +1,7 @@
 import { EventEmitter, throttle, concatAll} from "./lib";
-import {Spaceship, Bullet, Point, Enemyship } from  "./entities/index";
+import {Spaceship, Bullet, Point, Enemyship, StarOfDeath } from  "./entities/index";
 import { ProcessorForState } from "./ProcessorForState";
-import { SHIP, START_ENERGY_PARAMS, FIELD_SIZE } from './constants';
+import { SHIP, START_ENERGY_PARAMS, FIELD_SIZE, STAR_OF_DEATH_POSITION } from './constants';
 import { GameField } from "./GameField";
 import {TColaider, TDirection} from "./types/global";
 
@@ -10,6 +10,8 @@ class Processor {
 	private _dataField: GameField;
 	private _processorState: ProcessorForState;
 	private _spaceShip: Spaceship;
+	private _starOfDeath:StarOfDeath;
+
 	private _energyParams;
 	private _energyTypes: string[] = [];
 	private _timeDelayShooting: Function;
@@ -187,7 +189,18 @@ class Processor {
 			}
 
 			case 'enemyBullet': {
-				console.log("One moment");
+				this._starOfDeath.getGunCordinates().forEach((item) => {
+					let colaider: TColaider = {
+						x: item.x - 2,
+						y: item.y,
+						color: "#eecb0f",
+						type: "body"
+					};
+					this._processorState.add({
+						type: 'enemyBullet',
+						instance: new Bullet({colaider: [new Point(colaider)]})
+					});
+				});
 				break;
 			}
 		}
@@ -217,20 +230,33 @@ class Processor {
 		switch (key) {
 			case "spaceship": {
 				this.checkCrash(entities['enemy'], entity);
+				this.checkCrash(entities['enemyBullet'], entity);
+				this.checkCrash(entities['starOfDeath'], entity);
+
 				if (entity.removed) {
 					this._settingsToStopGame();
-					 this._resultOfAction("lose");
+					this._resultOfAction("lose");
 				}
 				break;
 			}
 
 			case "spaceshipBullet": {
 				this.checkCrash(entities['enemy'], entity);
+				this.checkCrash(entities['enemyBullet'], entity);
 
 				if(entity.removed) {
 					this._resultOfAction("kill");
 					return;
 				}
+				entities['starOfDeath'].forEach(item => {
+					if (item.checkPosition(entity.colaider)) {
+						entity.removed = true;
+					}
+					if ( entity.checkPosition(item.getAimColider() ) ) {
+						this._resultOfAction("win");
+					}
+				});
+
 				if (entity.colaider.x > FIELD_SIZE.rightX) entity.removed = true;
 
 				break;
@@ -245,14 +271,39 @@ class Processor {
 					return;
 				}
 				if(this._spaceShip.removed){
+					this._settingsToStopGame();
 					this._resultOfAction("lose");
 				}
 
 				let isInField = entity.colaider.filter( point => point.x > FIELD_SIZE.leftX);
 				if(!isInField.length) entity.removed = true;
+
 				break;
 			}
 
+			case "enemyBullet": {
+				this.checkCrash(entities['spaceshipBullet'], entity);
+				this.checkCrash(entities['spaceship'], entity);
+
+				if (entity.colaider.x < FIELD_SIZE.leftX ) entity.removed = true;
+				break;
+			}
+
+			case "starOfDeath": {
+				this.checkCrash(entities['spaceship'], entity);
+
+				if (entity.getGunCordinates().x < FIELD_SIZE.leftX ) entity.removed = true;
+				entities['spaceshipBullet'].forEach(bullet => {
+					if (bullet.checkPosition(entity.colaider)) {
+						bullet.removed = true;
+					}
+
+					if ( bullet.checkPosition(entity.getAimColider() ) ) {
+						this._resultOfAction("win");
+						this._settingsToStopGame();
+					}
+				})
+			}
 		}
 	}
 
@@ -290,13 +341,38 @@ class Processor {
 	private _checkScore(){
 		this._score += 10;
 		EventEmitter.trigger('update score', {score: this._score});
-
-		if (this._score % 100 === 0) {
+		if(this._score === 60){
+			this._prepareForStarOfDeath();
+		} else if (this._score % 100 === 0) {
 			let currentSpeed = this._energyParams.enemy.duration;
 			this._energyParams.enemy.duration =  currentSpeed * this._changeDifficulty(this._score);
 
 		}
 	}
+
+	private _prepareForStarOfDeath(): void {
+		clearInterval(this._timer);
+		this._processorState.clearFotStarOfDeath();
+		this._generateStarOfDeath();
+
+		this._timer = setInterval(() => {
+			this._shot("enemyBullet");
+		}, 800);
+	}
+
+	private _generateStarOfDeath():void {
+		this._starOfDeath = new StarOfDeath({
+			colaider: STAR_OF_DEATH_POSITION.map((item) => {
+				return new Point(item);
+			})
+		});
+
+		this._processorState.add({
+			type: 'starOfDeath',
+			instance: this._starOfDeath
+		});
+	}
+
 
 	private _changeDifficulty(score:number):number {
 		return (1 - Math.floor( score / 100 ) / 10);

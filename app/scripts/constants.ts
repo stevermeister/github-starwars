@@ -54,4 +54,25 @@ const SHIP = {
     TIME_OF_DELAY_SHOTTING : 500
 };
 
-export {KEYBOARDS_CODE, FIELD_SIZE, SHIP, START_ENERGY_PARAMS };
+const STAR_OF_DEATH_POSITION = [
+    { type: 'body', x: 54, y: 1, color: 'black'},
+    { type: 'body', x: 55, y: 1, color: 'black'},
+    { type: 'body', x: 53, y: 2, color: 'black'},
+    { type: 'body', x: 54, y: 2, color: 'black'},
+    { type: 'body', x: 55, y: 2, color: 'black'},
+    { type: 'body', x: 56, y: 2, color: 'black'},
+    { type: 'body', x: 52, y: 3, color: 'black'},
+    { type: 'body', x: 53, y: 3, color: 'black'},
+    { type: 'body', x: 54, y: 3, color: 'black'},
+    { type: 'body', x: 55, y: 3, color: 'black'},
+    { type: 'body', x: 56, y: 3, color: 'black'},
+    { type: 'gun', x: 57, y: 3, color: 'black'},
+    { type: 'body', x: 53, y: 4, color: 'black'},
+    { type: 'body', x: 54, y: 4, color: 'black'},
+    { type: 'body', x: 55, y: 4, color: 'black'},
+    { type: 'body', x: 56, y: 4, color: 'black'},
+    { type: 'body', x: 54, y: 5, color: 'black'},
+    { type: 'body', x: 55, y: 5, color: 'black'}
+];
+
+export {KEYBOARDS_CODE, FIELD_SIZE, SHIP, START_ENERGY_PARAMS, STAR_OF_DEATH_POSITION };
