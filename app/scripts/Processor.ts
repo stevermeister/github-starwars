@@ -46,6 +46,11 @@ class Processor {
 			this._energyParams.spaceship.direction = SHIP.SPACE_SHIP_DIRECTION[data.direction];
 		} );
 
+		EventEmitter.on("update field of game", (data) => {
+			this._dataField.endRender(data.text);
+			this._isStopGame = true;
+		});
+
 	}
 
 	private _startProcess(): void {
@@ -271,7 +276,6 @@ class Processor {
 					return;
 				}
 				if(this._spaceShip.removed){
-					this._settingsToStopGame();
 					this._resultOfAction("lose");
 				}
 
@@ -300,7 +304,6 @@ class Processor {
 
 					if ( bullet.checkPosition(entity.getAimColider() ) ) {
 						this._resultOfAction("win");
-						this._settingsToStopGame();
 					}
 				})
 			}
@@ -320,10 +323,14 @@ class Processor {
 		switch (type) {
 			case "lose": {
 				console.log("You are lose");
+				this._settingsToStopGame();
+				EventEmitter.trigger("stop game", { type: "lose" });
 				break
 			}
 			case "win": {
 				console.log("You are win");
+				this._settingsToStopGame();
+				EventEmitter.trigger("stop game", { type: "win" });
 				break;
 			}
 			case "kill": {
