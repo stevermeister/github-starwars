@@ -137,7 +137,6 @@ class Processor {
 					});
 				});
 
-				EventEmitter.trigger('play sound', {type: "blaster"});
 				break;
 			}
 

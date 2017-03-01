@@ -2,7 +2,6 @@ import { GameField } from "./GameField";
 import  { Processor } from "./Processor";
 import { EventEmitter} from "./lib";
 import { KEYBOARDS_CODE } from "./constants";
-import  { Music } from "./Music";
 
 class Game {
 
@@ -14,14 +13,6 @@ class Game {
         this._scoreElement = options.score;
 
         EventEmitter.on('start game', () => {
-
-            new Music([
-                {name: "main", url: "main.mp3", loop: true, volume: 0.5},
-                {name: "blaster", url: "laser.mp3", loop: false, volume: 1},
-                {name: "bomb", url: "bomb.mp3", loop: false, volume: 1},
-                {name: "gameover", url: "gameover.mp3", loop: false, volume: 1},
-                {name: "win", url: "win.mp3", loop: false, volume: 1}
-            ]);
 
             this._dataField = new GameField({
                 list: options.el.querySelectorAll('rect')
