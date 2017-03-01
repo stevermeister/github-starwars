@@ -31,7 +31,13 @@ let EventEmitter = {
 		} else {
 			console.log('EE.trigger: not found subscribers for ' + event + ' event');
 		}
-	}
+	},
+
+	 "offAll": function offAll(event: string) {
+		 if (this.subscribers[event] === undefined) {
+			 this.subscribers[event] = [];
+		 }
+	 }
 };
 
 function  throttle(func:Function, ms:number):Function {
