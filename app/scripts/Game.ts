@@ -12,8 +12,6 @@ class Game {
         this._scoreElement = options.score;
 
         EventEmitter.on('start game', () => {
-            console.log("Game start");
-
             new Processor({
                 dataField: this._dataField
             });
