@@ -34,4 +34,36 @@ let EventEmitter = {
 	}
 };
 
-export { EventEmitter};
+function  throttle(func:Function, ms:number):Function {
+	let state:boolean = false,
+		arg:any = null,
+		context:any = null;
+
+	return function time() {
+		if (state) {
+			arg = arguments;
+			context = this;
+			return;
+		}
+		state = true;
+		func.call(this);
+		setTimeout(() => {
+			state = false;
+			if (arg) {
+				time.call(context);
+				context = null;
+				arg = null;
+			}
+		}, ms);
+	}
+}
+
+function  concatAll(array:any[]) {
+	let results = [];
+	array.forEach(function(subArray) {
+		results.push.apply(results, subArray);
+	});
+	return results;
+}
+
+export { EventEmitter, throttle, concatAll };

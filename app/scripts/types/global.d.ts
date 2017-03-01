@@ -16,5 +16,4 @@ interface TDirection {
     y: number
 }
 
-
 export { TColaider, TGameField, TDirection };
