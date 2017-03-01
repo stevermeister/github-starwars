@@ -18,6 +18,9 @@ class Game {
                 list: options.el.querySelectorAll('rect')
             });
 
+            // EventEmitter.offAll("fire");
+            // EventEmitter.offAll("move");
+
             new Processor({
                 dataField: this._dataField
             });
