@@ -16,5 +16,11 @@ interface TDirection {
     y: number
 }
 
+interface TSound {
+    name: string,
+    url: string,
+    loop: boolean,
+    volume: number
+}
 
-export { TColaider, TGameField, TDirection };
+export { TColaider, TGameField, TDirection, TSound };

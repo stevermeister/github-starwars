@@ -15,7 +15,7 @@ module.exports = function(options) {
 			cache: {},
 			packageCache: {}
 		})
-			.plugin(tsify)
+			.plugin(tsify, {target: "ES6"})
 			.bundle()
 			.pipe(source('index.js'))
 			.pipe(gulp.dest(options.dest));
