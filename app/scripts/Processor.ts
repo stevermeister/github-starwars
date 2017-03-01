@@ -8,9 +8,6 @@ class Processor {
 
 	constructor(options: {dataField: GameField}) {
 
-		EventEmitter.on('start game', () => {
-			console.log("Game start");
-		});
 
 	}
 

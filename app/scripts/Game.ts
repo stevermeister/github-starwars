@@ -1,31 +1,32 @@
 import { GameField } from "./GameField";
 import  { Processor } from "./Processor";
+import { EventEmitter} from "./lib";
 
 class Game {
 
     private _dataField: GameField;
     private _scoreElement: Element;
 
-    constructor(options: {el: Element}) {
-        this._initGameComponents(options);
+    constructor(options: {el: Element, score: Element}) {
 
-        this._dataField.render([]);
+        this._scoreElement = options.score;
 
-        this._scoreElement = document.querySelector(".score-game");
+        EventEmitter.on('start game', () => {
+            console.log("Game start");
+
+            new Processor({
+                dataField: this._dataField
+            });
+
+            this._dataField = new GameField({
+                list: options.el.querySelectorAll('rect')
+            });
+
+            this._dataField.render([]);
+        });
 
     }
 
-
-    private _initGameComponents(options: {el: Element}) {
-
-        new Processor({
-            dataField: this._dataField
-        });
-
-        this._dataField = new GameField({
-            list: options.el.querySelectorAll('rect')
-        });
-    }
 }
 
 export { Game };
