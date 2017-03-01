@@ -2,6 +2,7 @@ import { GameField } from "./GameField";
 import  { Processor } from "./Processor";
 import { EventEmitter} from "./lib";
 import { KEYBOARDS_CODE } from "./constants";
+import { EndGame } from "./EndGame";
 
 class Game {
 
@@ -24,6 +25,8 @@ class Game {
             new Processor({
                 dataField: this._dataField
             });
+
+            new EndGame();
 
             this._dataField.render([]);
 
