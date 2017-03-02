@@ -1,42 +1,42 @@
-import { GameField } from "./GameField";
-import  { Processor } from "./Processor";
 import { EventEmitter} from "./lib";
-import { KEYBOARDS_CODE } from "./constants";
+import { Processor } from "./Processor";
+import { GameField } from "./GameField";
+import { KEYBOARDS_CODE, SHIP } from "./constants";
 import { EndGame } from "./EndGame";
 
 class Game {
 
     private _dataField: GameField;
     private _scoreElement: Element;
+    private _shootTime: number;
 
     constructor(options: {el: Element, score: Element}) {
 
         this._scoreElement = options.score;
+        this._shootTime = performance.now();
+        this._initGameComponents(options);
 
-        EventEmitter.on('start game', () => {
 
-            this._dataField = new GameField({
-                list: options.el.querySelectorAll('rect')
-            });
+        this.checkScore = this.checkScore.bind(this);
 
-            // EventEmitter.offAll("fire");
-            // EventEmitter.offAll("move");
 
-            new Processor({
-                dataField: this._dataField
-            });
-
-            new EndGame();
-
-            this._dataField.render([]);
-
-            document.addEventListener('keypress', this.checkMove.bind(this));
-        });
-
-        EventEmitter.on("update score", this.checkScore.bind(this));
-
+        EventEmitter.on("update score",  this.checkScore);
+        document.addEventListener('keypress', this.checkMove.bind(this));
     }
 
+
+    private _initGameComponents(options: {el: Element}) {
+
+        this._dataField = new GameField({
+            list: options.el.querySelectorAll('rect')
+        });
+
+        new Processor({
+            dataField: this._dataField
+        });
+
+        new EndGame();
+    }
 
     public checkScore(data: {score:number}): void{
         this._scoreElement.innerHTML = "Score: "+ data.score;
@@ -53,7 +53,11 @@ class Game {
 
         switch (code) {
             case fire: {
-                EventEmitter.trigger('fire');
+                let now = performance.now();
+                if( (now - this._shootTime) / SHIP.TIME_OF_DELAY_SHOTTING >= 1){
+                    this._shootTime = now;
+                    EventEmitter.trigger('fire');
+                }
                 break;
             }
             case up: {
@@ -75,7 +79,6 @@ class Game {
         }
 
     }
-
 }
 
 export { Game };
