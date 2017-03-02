@@ -1,9 +1,9 @@
 const KEYBOARDS_CODE = {
-    right: 100, // d
-    left: 97, // a
-    down: 115, // s
-    up: 119, // w
-    fire: 108 // l
+    right: 68, 
+    left: 65,
+    down: 83, 
+    up: 87, 
+    fire: 76
 };
 
 const FIELD_SIZE = {
