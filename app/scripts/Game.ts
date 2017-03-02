@@ -21,7 +21,7 @@ class Game {
 
 
         EventEmitter.on("update score",  this.checkScore);
-        document.addEventListener('keypress', this.checkMove.bind(this));
+        document.addEventListener('keydown', this.checkMove.bind(this));
     }
 
 
