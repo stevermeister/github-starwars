@@ -5,7 +5,6 @@ class App{
 
 	constructor(options: {svg: Element}){
 		let $svg: Element = options.svg;
-		console.log('fg')
 
 		App.initToolbar($svg);
 
