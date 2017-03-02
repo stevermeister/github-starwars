@@ -34,7 +34,7 @@ let EventEmitter = {
 	},
 
 	 "offAll": function offAll(event: string) {
-		 if (this.subscribers[event] === undefined) {
+		 if (this.subscribers[event]) {
 			 this.subscribers[event] = [];
 		 }
 	 }

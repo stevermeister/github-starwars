@@ -26,6 +26,12 @@ class ProcessorForState{
         });
     }
 
+    public clearFotStarOfDeath(): void {
+        Object.keys(this._currentState).forEach(type => {
+            if (type != "starOfDeath" && type != "spaceship")
+                this._currentState[type] = [];
+        });
+    }
 
 }
 

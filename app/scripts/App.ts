@@ -5,13 +5,15 @@ class App{
 
 	constructor(options: {svg: Element}){
 		let $svg: Element = options.svg;
+		console.log('fg')
 
 		App.initToolbar($svg);
+
+		new Game({el: $svg, score: document.querySelector(".score-game")});
 
 		document.addEventListener("keypress", (event) => {
 			if (event.keyCode === 13) {
 				event.preventDefault();
-				new Game({el: $svg, score: document.querySelector(".score-game")});
 				EventEmitter.trigger('start game');
 			}
 		});
@@ -22,11 +24,11 @@ class App{
 		toolbar.innerHTML = `<h3 style="text-align: left; margin-left: 50px; float: left" class="score-game">Score: 0</h3>
 				<div  style="float: left; background: #eee; line-height: 40px; margin-left: 50px; padding: 0 20px;">
 					<strong style="color: #ff7978">Enter-</strong>Start Game 
-					<strong style="color: #ff7978">F-</strong>Fire  
-					<strong style="color: #ff7978">Num 8-</strong>Up  
-					<strong style="color: #ff7978">Num 5-</strong>Down
-					<strong style="color: #ff7978">Num 4-</strong>Left
-					<strong style="color: #ff7978">Num 6-</strong>Right
+					<strong style="color: #ff7978">L-</strong>Fire  
+					<strong style="color: #ff7978">W-</strong>Up  
+					<strong style="color: #ff7978">S-</strong>Down
+					<strong style="color: #ff7978">A-</strong>Left
+					<strong style="color: #ff7978">D-</strong>Right
 				</div>
 			</HTMLDivElement>`;
 

@@ -36,6 +36,43 @@ class GameField {
         });
     }
 
+    /*public endRender(currentState: Point[]): void {
+        let timer: number;
+
+        this._clearData();
+        currentState.forEach((item) => {
+            this._dataField.forEach((elem) => {
+                timer = setInterval(() => {
+                        if (elem.index === item.x * FIELD_SIZE.columnLength + item.y) {
+                            (elem.el as HTMLElement).style.fill = item.color;
+                        }
+                }, 10);
+            });
+
+        });
+        clearInterval(timer);
+    }*/
+
+
+    public endRender(currentState: Point[]): void {
+        let self = this;
+        let index = 0;
+
+        this._clearData();
+        setTimeout(function run() {
+            let item = currentState[index];
+            self._dataField.forEach(elem => {
+                if (elem.index === item.x * FIELD_SIZE.columnLength + item.y) {
+                    (elem.el as HTMLElement).style.fill = item.color;
+                }
+            });
+            index++;
+            if(index !== currentState.length)setTimeout(run.bind(this), 10);
+        }.bind(this), 10);
+
+    }
+
+
     private _clearData(): void {
         this._dataField.forEach((elem) => {
             (elem.el as HTMLElement).style.fill = '#eee';
