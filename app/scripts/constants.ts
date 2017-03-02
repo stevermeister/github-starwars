@@ -1,9 +1,9 @@
 const KEYBOARDS_CODE = {
-    right: 54, // numpad 6
-    left: 52, // numpad 4
-    down: 53, // numpad 8
-    up: 56, // numpad 8
-    fire: 102 // f
+    right: 68, 
+    left: 65,
+    down: 83, 
+    up: 87, 
+    fire: 76 
 };
 
 const FIELD_SIZE = {
