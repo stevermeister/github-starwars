@@ -56,9 +56,9 @@ class Processor {
 	}
 
 	private _prepareGameFieldToStart(): void {
+		this._dataField.render([]);
 		EventEmitter.trigger("update score", {score: 0}); 	//reset score
 
-		console.log(SHIP.TIME_OF_DELAY_SHOTTING);
 
 		this._energyParams["enemy"].duration = START_ENERGY_PARAMS.enemy.duration;
 		this._score = 0;
@@ -78,7 +78,6 @@ class Processor {
 			instance: this._spaceShip
 		});
 
-		EventEmitter.trigger('play sound', {type: "main"});
 		let self = this;
 		requestAnimationFrame(function __animateLoop() {
 			if(self._isStopGame) return;
@@ -378,6 +377,7 @@ class Processor {
 
 	private _checkScore(){
 		this._score += 10;
+		console.log(this._score);
 		EventEmitter.trigger('update score', {score: this._score});
 		if(this._score === 600){
 			this._prepareForStarOfDeath();

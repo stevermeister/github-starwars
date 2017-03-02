@@ -8,10 +8,11 @@ class App{
 
 		App.initToolbar($svg);
 
+		new Game({el: $svg, score: document.querySelector(".score-game")});
+
 		document.addEventListener("keypress", (event) => {
 			if (event.keyCode === 13) {
 				event.preventDefault();
-				new Game({el: $svg, score: document.querySelector(".score-game")});
 				EventEmitter.trigger('start game');
 			}
 		});

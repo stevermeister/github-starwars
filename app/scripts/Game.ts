@@ -16,7 +16,7 @@ class Game {
         this._shootTime = performance.now();
         this._initGameComponents(options);
 
-        this._dataField.render([]);
+
         this.checkScore = this.checkScore.bind(this);
 
 
