@@ -34,8 +34,9 @@ class Processor {
 		this._processorState = new ProcessorForState({ types: this._energyTypes	});
 
 		EventEmitter.on('fire', () =>  {
-			if (!this._isStopGame)
+			if (!this._isStopGame && this._processorState.get().spaceshipBullet.length < 5) {
 				this._shot('spaceshipBullet');
+			}
 		});
 		EventEmitter.on('move', (data) => {
 			this._energyParams.spaceship.direction = SHIP.SPACE_SHIP_DIRECTION[data.direction];
@@ -199,7 +200,7 @@ class Processor {
 					}
 				});
 
-				if (entity.colaider.x > FIELD_SIZE.rightX) entity.removed = true;
+				if (entity.colaider[0].x >= FIELD_SIZE.rightX) entity.removed = true;
 
 				break;
 			}
