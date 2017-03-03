@@ -51,7 +51,7 @@ const SHIP = {
         down: { x: 0, y: 1 },
         up: { x: 0, y: -1 }
     },
-    TIME_OF_DELAY_SHOTTING : 500
+    TIME_OF_DELAY_SHOTTING : 300
 };
 
 const END_GAME_TEXT = {
