@@ -3,7 +3,7 @@ let EventEmitter = {
 	"subscribers": {},
 
 	"on": function on(event: string, cb: Function) {
-		let eventType = event || 'default';
+		let eventType = event || "default";
 		if (!this.subscribers[eventType]) {
 			this.subscribers[eventType] = [];
 		}
@@ -16,7 +16,7 @@ let EventEmitter = {
 				return cb !== item;
 			});
 		} else {
-			console.error(event + ' not found!');
+			console.error(event + " not found!");
 		}
 	},
 
@@ -29,7 +29,7 @@ let EventEmitter = {
 				sub[i](options);
 			}
 		} else {
-			console.log('EE.trigger: not found subscribers for ' + event + ' event');
+			console.log("EE.trigger: not found subscribers for " + event + " event");
 		}
 	},
 

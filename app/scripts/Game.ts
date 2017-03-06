@@ -21,14 +21,14 @@ class Game {
 
 
         EventEmitter.on("update score",  this.checkScore);
-        document.addEventListener('keydown', this.checkMove.bind(this), true);
+        document.addEventListener("keydown", this.checkMove.bind(this), true);
     }
 
 
     private _initGameComponents(options: {el: Element}) {
 
         this._dataField = new GameField({
-            list: options.el.querySelectorAll('rect')
+            list: options.el.querySelectorAll("rect")
         });
 
         new Processor({
@@ -55,24 +55,24 @@ class Game {
                 let now = performance.now();
                 if( (now - this._shootTime) / SHIP.TIME_OF_DELAY_SHOTTING >= 1){
                     this._shootTime = now;
-                    EventEmitter.trigger('fire');
+                    EventEmitter.trigger("fire");
                 }
                 break;
             }
             case up: {
-                EventEmitter.trigger('move', { direction: "up"});
+                EventEmitter.trigger("move", { direction: "up"});
                 break;
             }
             case right: {
-                EventEmitter.trigger('move', { direction: "right"});
+                EventEmitter.trigger("move", { direction: "right"});
                 break;
             }
             case left: {
-                EventEmitter.trigger('move', { direction: "left"});
+                EventEmitter.trigger("move", { direction: "left"});
                 break;
             }
             case down: {
-                EventEmitter.trigger('move', { direction: "down"});
+                EventEmitter.trigger("move", { direction: "down"});
                 break;
             }
         }

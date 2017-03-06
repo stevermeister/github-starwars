@@ -2,7 +2,7 @@ import { EventEmitter, concatAll, throttle} from "./lib";
 import { GameField } from "./GameField";
 import {Spaceship, Bullet, Enemyship, StarOfDeath, Point } from  "./entities/index";
 import { ProcessorForState } from "./ProcessorForState";
-import { SHIP, START_ENERGY_PARAMS, STAR_OF_DEATH_POSITION, FIELD_SIZE } from './constants';
+import { SHIP, START_ENERGY_PARAMS, STAR_OF_DEATH_POSITION, FIELD_SIZE } from "./constants";
 import  { TColaider, TDirection } from "./types/global";
 
 class Processor {
@@ -14,7 +14,6 @@ class Processor {
 	private _isStopGame: boolean = false;
 	private _energyParams;
 	private _energyTypes: string[] = [];
-	private _timeDelayShooting: Function;
 	private _timer: number;
 	private _lengthOfField: number;
 	private _score:number = 0;
@@ -26,23 +25,21 @@ class Processor {
 			this._energyParams[key] = Object.assign({}, START_ENERGY_PARAMS[key]);
 			this._energyTypes.push(key);
 		});
-		//this._timeDelayShooting = throttle(this._shot.bind(this, 'spaceshipBullet'), SHIP.TIME_OF_DELAY_SHOTTING);
-
 
 		this._dataField = options.dataField;
 		this._lengthOfField = this._dataField.getLenghtofData();
 		this._processorState = new ProcessorForState({ types: this._energyTypes	});
 
-		EventEmitter.on('fire', () =>  {
+		EventEmitter.on("fire", () =>  {
 			if (!this._isStopGame && this._processorState.get().spaceshipBullet.length < 5) {
-				this._shot('spaceshipBullet');
+				this._shot("spaceshipBullet");
 			}
 		});
-		EventEmitter.on('move', (data) => {
+		EventEmitter.on("move", (data) => {
 			this._energyParams.spaceship.direction = SHIP.SPACE_SHIP_DIRECTION[data.direction];
 		} );
 
-		EventEmitter.on('start game', () => {
+		EventEmitter.on("start game", () => {
 			//prepare game to start
 			this._prepareGameFieldToStart();
 			//start
@@ -75,7 +72,7 @@ class Processor {
 		this._timer = this._generateEvil();
 
 		this._processorState.add({
-			type: 'spaceship',
+			type: "spaceship",
 			instance: this._spaceShip
 		});
 
@@ -101,15 +98,15 @@ class Processor {
 	private _createEnemyShip(): Enemyship {
 		let {x, y} = this._generateColaider();
 		return new Enemyship({colaider: [
-			new Point({ type: 'body', x: x, y: y, color: "green"}),
-			new Point({ type: 'body', x: x + 1, y: y, color: "green"})
+			new Point({ type: "body", x: x, y: y, color: "green"}),
+			new Point({ type: "body", x: x + 1, y: y, color: "green"})
 		]})
 	}
 
 	private _generateEvil(): number {
 		let timer = setInterval(() => {
 			this._processorState.add({
-				type: 'enemy',
+				type: "enemy",
 				instance: this._createEnemyShip()
 			});
 		}, 1000);
@@ -138,7 +135,7 @@ class Processor {
 				let gunPosition = [];
 
 				this._spaceShip.colaider.forEach((item) => {
-					if (item.type === 'gun') gunPosition.push(item);
+					if (item.type === "gun") gunPosition.push(item);
 				});
 
 				let y = this._energyParams.spaceship.direction.y;
@@ -172,9 +169,9 @@ class Processor {
 	private _checkCriticalPoint(key: string, entity, entities): void {
 		switch (key) {
 			case "spaceship": {
-				this.checkCrash(entities['enemy'], entity);
-				this.checkCrash(entities['enemyBullet'], entity);
-				this.checkCrash(entities['starOfDeath'], entity);
+				this.checkCrash(entities["enemy"], entity);
+				this.checkCrash(entities["enemyBullet"], entity);
+				this.checkCrash(entities["starOfDeath"], entity);
 
 				if (entity.removed) {
 					this._settingsToStopGame();
@@ -184,14 +181,14 @@ class Processor {
 			}
 
 			case "spaceshipBullet": {
-				this.checkCrash(entities['enemy'], entity);
-				this.checkCrash(entities['enemyBullet'], entity);
+				this.checkCrash(entities["enemy"], entity);
+				this.checkCrash(entities["enemyBullet"], entity);
 
 				if(entity.removed) {
 					this._resultOfAction("kill");
 					return;
 				}
-				entities['starOfDeath'].forEach(item => {
+				entities["starOfDeath"].forEach(item => {
 					if (item.checkPosition(entity.colaider)) {
 						entity.removed = true;
 					}
@@ -206,8 +203,8 @@ class Processor {
 			}
 
 			case "enemy": {
-				this.checkCrash(entities['spaceshipBullet'], entity);
-				this.checkCrash(entities['spaceship'], entity);
+				this.checkCrash(entities["spaceshipBullet"], entity);
+				this.checkCrash(entities["spaceship"], entity);
 
 				if(entity.removed) {
 					this._resultOfAction("kill");
@@ -224,18 +221,18 @@ class Processor {
 			}
 
 			case "enemyBullet": {
-				this.checkCrash(entities['spaceshipBullet'], entity);
-				this.checkCrash(entities['spaceship'], entity);
+				this.checkCrash(entities["spaceshipBullet"], entity);
+				this.checkCrash(entities["spaceship"], entity);
 
 				if (entity.colaider.x < FIELD_SIZE.leftX ) entity.removed = true;
 				break;
 			}
 
 			case "starOfDeath": {
-				this.checkCrash(entities['spaceship'], entity);
+				this.checkCrash(entities["spaceship"], entity);
 
 				if (entity.getGunCordinates().x < FIELD_SIZE.leftX ) entity.removed = true;
-				entities['spaceshipBullet'].forEach(bullet => {
+				entities["spaceshipBullet"].forEach(bullet => {
 					if (bullet.checkPosition(entity.colaider)) {
 						bullet.removed = true;
 					}
@@ -256,7 +253,7 @@ class Processor {
 				break
 			}
 			case "win": {
-				EventEmitter.trigger('stop game', {type: 'win'});
+				EventEmitter.trigger("stop game", {type: "win"});
 				break;
 			}
 			case "kill": {
@@ -316,7 +313,7 @@ class Processor {
 
 	private _shot(type: string): void {
 		switch (type) {
-			case 'spaceshipBullet': {
+			case "spaceshipBullet": {
 				this._spaceShip.getGunCordinates().forEach((item) => {
 					let colaider: TColaider = {
 						x: item.x + 1,
@@ -326,7 +323,7 @@ class Processor {
 					};
 
 					this._processorState.add({
-						type: 'spaceshipBullet',
+						type: "spaceshipBullet",
 						instance: new Bullet({colaider: [new Point(colaider)]})
 					});
 				});
@@ -334,7 +331,7 @@ class Processor {
 				break;
 			}
 
-			case 'enemyBullet': {
+			case "enemyBullet": {
 				this._starOfDeath.getGunCordinates().forEach((item) => {
 					let colaider: TColaider = {
 						x: item.x - 2,
@@ -343,7 +340,7 @@ class Processor {
 						type: "body"
 					};
 					this._processorState.add({
-						type: 'enemyBullet',
+						type: "enemyBullet",
 						instance: new Bullet({colaider: [new Point(colaider)]})
 					});
 				});
@@ -371,18 +368,17 @@ class Processor {
 		});
 
 		this._processorState.add({
-			type: 'starOfDeath',
+			type: "starOfDeath",
 			instance: this._starOfDeath
 		});
 	}
 
 	private _checkScore(){
 		this._score += 10;
-		console.log(this._score);
-		EventEmitter.trigger('update score', {score: this._score});
+		EventEmitter.trigger("update score", {score: this._score});
 		if(this._score === 600){
 			this._prepareForStarOfDeath();
-		} else if (this._score % 100 === 0) {
+		} else if (this._score - Math.floor(this._score / 100) * 100 === 0) {
 			let currentSpeed = this._energyParams.enemy.duration;
 			this._energyParams.enemy.duration =  currentSpeed * this._changeDifficulty(this._score);
 

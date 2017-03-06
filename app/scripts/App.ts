@@ -13,13 +13,13 @@ class App{
 		document.addEventListener("keypress", (event) => {
 			if (event.keyCode === 13) {
 				event.preventDefault();
-				EventEmitter.trigger('start game');
+				EventEmitter.trigger("start game");
 			}
 		});
 	}
 
 	static initToolbar(svg:Element):void {
-		let toolbar:HTMLDivElement = document.createElement('div');
+		let toolbar:HTMLDivElement = document.createElement("div");
 		toolbar.innerHTML = `<h3 style="text-align: left; margin-left: 50px; float: left" class="score-game">Score: 0</h3>
 				<div  style="float: left; background: #eee; line-height: 40px; margin-left: 50px; padding: 0 20px;">
 					<strong style="color: #ff7978">Enter-</strong>Start Game 
@@ -37,7 +37,7 @@ class App{
 		    width: 100%;
 		    background: #fff;
         `;
-		(svg.parentNode as HTMLElement).style.position = 'relative';
+		(svg.parentNode as HTMLElement).style.position = "relative";
 		svg.parentNode.appendChild(toolbar);
 
 	}

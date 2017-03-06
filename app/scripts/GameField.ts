@@ -36,23 +36,6 @@ class GameField {
         });
     }
 
-    /*public endRender(currentState: Point[]): void {
-        let timer: number;
-
-        this._clearData();
-        currentState.forEach((item) => {
-            this._dataField.forEach((elem) => {
-                timer = setInterval(() => {
-                        if (elem.index === item.x * FIELD_SIZE.columnLength + item.y) {
-                            (elem.el as HTMLElement).style.fill = item.color;
-                        }
-                }, 10);
-            });
-
-        });
-        clearInterval(timer);
-    }*/
-
 
     public endRender(currentState: Point[]): void {
         let self = this;
@@ -75,7 +58,7 @@ class GameField {
 
     private _clearData(): void {
         this._dataField.forEach((elem) => {
-            (elem.el as HTMLElement).style.fill = '#eee';
+            (elem.el as HTMLElement).style.fill = "#eee";
         });
     }
 
