@@ -11,7 +11,7 @@ npm i
 gulp
 
 
-#Deploy to gh-pages
+##Deploy to gh-pages
 gulp build
 
 gulp deploy
