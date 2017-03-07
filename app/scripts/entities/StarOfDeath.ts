@@ -23,13 +23,13 @@ class StarOfDeath extends Energy {
         let aimCoords: TDirection = this._generateAimColaider(starOfDeathColaider);
 
         starOfDeathColaider.forEach( (item: Point) => {
-            if(item.type === 'aim') {
-                item.type = 'body';
+            if(item.type === "aim") {
+                item.type = "body";
                 item.color = "#000";
             }
             if ( item.x === aimCoords.x && item.y === aimCoords.y ) {
                 item.color = "#f00";
-                item.type = 'aim';
+                item.type = "aim";
             }
         });
     }
@@ -51,11 +51,11 @@ class StarOfDeath extends Energy {
 
     public getGunCordinates(): Point[] {
         return this.colaider.filter((item) => {
-            return item.type === 'gun';});
+            return item.type === "gun";});
     }
 
     public getAimColider(): Point[] {
-        return this.colaider.filter(item => item.type === 'aim' );
+        return this.colaider.filter(item => item.type === "aim" );
     }
 }
 

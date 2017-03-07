@@ -46,6 +46,14 @@ requireTask('static', './tasks/static', {
     dest: path.public.static
 });
 
+requireTask('deploy', './tasks/deploy', {
+    src: {
+        js: path.deploy.src.js,
+        html: path.deploy.src.html
+    },
+    dest: path.deploy.dest
+});
+
 
 
 gulp.task('clean', function() {

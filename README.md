@@ -9,3 +9,9 @@ npm i
 
 ##Run gulp:
 gulp
+
+
+##Deploy to gh-pages
+gulp build
+
+gulp deploy

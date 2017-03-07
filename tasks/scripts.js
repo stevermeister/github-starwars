@@ -1,7 +1,10 @@
 const gulp = require('gulp'),
 	 browserify = require("browserify"),
 	 source = require('vinyl-source-stream'),
-	 tsify = require("tsify");
+	 tsify = require("tsify"),
+	 buffer = require('vinyl-buffer'),
+	 uglify = require('gulp-uglify'),
+     babel = require('gulp-babel');
 
 
 
@@ -18,6 +21,11 @@ module.exports = function(options) {
 			.plugin(tsify, {target: "ES6"})
 			.bundle()
 			.pipe(source('index.js'))
+            .pipe(buffer())
+			.pipe(babel({
+                presets: ['es2015']
+            }))
+            .pipe(uglify())
 			.pipe(gulp.dest(options.dest));
     };
 };

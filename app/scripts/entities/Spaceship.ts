@@ -10,7 +10,7 @@ class Spaceship extends Energy{
 
 	public getGunCordinates(): Point[] {
 		return this.colaider.filter((item) => {
-			return item.type === 'gun';});
+			return item.type === "gun";});
 	}
 }
 

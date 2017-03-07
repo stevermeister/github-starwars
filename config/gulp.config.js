@@ -32,7 +32,13 @@ const config = {
             img: './app/img/**/*.*',
             serve: './public/**/*.*'
         },
-
+        deploy: {
+            src: {
+                js: './public/js/index.js',
+                html: './app/gh-pages/index.html'
+            },
+            dest: './'
+        },
         clean: './public'
     }
 };
