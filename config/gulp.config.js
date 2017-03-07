@@ -32,7 +32,6 @@ const config = {
             img: './app/img/**/*.*',
             serve: './public/**/*.*'
         },
-
         deploy: {
             src: {
                 js: './public/js/index.js',
@@ -40,7 +39,6 @@ const config = {
             },
             dest: './'
         },
-
         clean: './public'
     }
 };

@@ -8,7 +8,6 @@ const gulp = require('gulp'),
 
 
 
-
 module.exports = function(options) {
 
     return function() {
