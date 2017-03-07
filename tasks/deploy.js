@@ -21,7 +21,7 @@ module.exports = function (options) {
                 function (file, code, cb) {
                     var template = file.contents.toString('utf-8');
                     var jsCode = fs.readFileSync(options.src.js, 'utf-8');
-                    jsCode = jsCode.split("'").join("\\\'");
+                    jsCode = jsCode.split("'").join('"');
                     var result = template.replace('{code}', 'javascript: ' + jsCode + 'void(0);');
                     file.contents = new Buffer(result, 'utf-8');
                     cb(null, file);
